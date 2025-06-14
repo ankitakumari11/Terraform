@@ -28,7 +28,7 @@ Here's how you typically use `.tfvars` files
 terraform apply -var-file=dev.tfvars
 ```
 
-By using `.tfvars` files, you can keep your Terraform code more generic and flexible while tailoring configurations to different scenarios and environments.
+Here since u r changing the name of terraform.tfvars to dev.tfvars that's y u need to declare while applying the terraform , if u r renaming file with terraform.tfvars then no need to specify during implementation.  
 
 > [!NOTE]
 > Rather than incluing everything in main.tf , we can write each function/var/providers in separate files like:
