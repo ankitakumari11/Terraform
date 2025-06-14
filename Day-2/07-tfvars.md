@@ -29,3 +29,35 @@ terraform apply -var-file=dev.tfvars
 ```
 
 By using `.tfvars` files, you can keep your Terraform code more generic and flexible while tailoring configurations to different scenarios and environments.
+
+> [!NOTE]
+> Rather than incluing everything in main.tf , we can write each function/var/providers in separate files like:
+> - Provider.tf
+> - Input.tf
+> - Outpu.tf
+> - main.tf
+> - terraform.tfvars
+
+### terraform.tfvars  
+The terraform.tfvars file in Terraform is used to assign values to variables defined in your configuration. It's an optional but commonly used file to separate configuration data from code, making your Terraform setup more organized, flexible, and reusable.  
+
+🧩 Why Use terraform.tfvars?  
+When you write a variables.tf (or inline variable blocks), you define variables like:  
+```
+# variables.tf
+variable "region" {
+  description = "The AWS region"
+  type        = string
+}
+
+variable "instance_type" {
+  default = "t2.micro"
+}
+```
+
+Instead of hardcoding the values in the configuration files, you provide them in terraform.tfvars:  
+```
+# terraform.tfvars
+region        = "us-west-2"
+instance_type = "t2.medium"
+```
