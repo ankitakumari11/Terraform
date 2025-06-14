@@ -1,4 +1,6 @@
 # Providers 
+> [!IMPORTANT]
+> Hashicorp is the creator of terraform
 
 A provider in Terraform is a plugin that enables interaction with an API. 
 This includes cloud providers, SaaS providers, and other APIs. The providers are specified in the Terraform configuration code. They tell Terraform which services it needs to interact with.Inside providers we can also write the API keys uploaded or private key path for authentication with the providers like oci ,gcp etc
