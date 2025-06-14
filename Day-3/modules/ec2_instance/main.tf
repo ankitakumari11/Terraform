@@ -14,3 +14,5 @@ resource "aws_instance" "example" {
 # terraform init (this will initialise the terraform)
 # terraform plan (to see what changes are going to be made)
 # terraform apply (to apply the changes)
+
+# Once u run terraform init , u will see "terraform.tfstate" : It keeps the record of all the changes u have made.
