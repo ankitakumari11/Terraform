@@ -16,3 +16,5 @@ resource "aws_instance" "example" {
 # terraform apply (to apply the changes)
 
 # Once u run terraform init , u will see "terraform.tfstate" : It keeps the record of all the changes u have made.
+
+# Here if we are running terraform.apply inside /modules/ec2_instance then it is fine. But here we going to run this entire directory ie. /modules/ec2_instance as a module and going to refere it in main.tf in root folder or u can say day-3 folder.
