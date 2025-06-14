@@ -6,6 +6,7 @@ You can use multiple providers in one single terraform project. For example,
 1. Create a providers.tf file in the root directory of your Terraform project.
 2. In the providers.tf file, define the AWS and Azure providers. For example:
 
+In aws , it has its own feature and we dont need to provide secret key and all here but for azure or maybe oci we would be needed. You need to go to documentation to know in detail.  
 
 ```
 provider "aws" {
