@@ -27,6 +27,15 @@ A module in Terraform is just a collection of .tf files that do a specific job�
 - Organize large configurations
 - Follow best practices (like DRY – Don’t Repeat Yourself)
 
+```
+modules/
+└── my_module/
+    ├── main.tf
+    ├── variables.tf
+    ├── outputs.tf
+
+```
+
 In simple words: Modules = functions in programming.Just like functions, modules can accept inputs (variables) and return output  
 🔧 Let's Build a Simple Module (to create an EC2 instance)  
 🗂 Folder Structure  
@@ -84,7 +93,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-module "my_ec2" {
+module "my_ec2" { # here u can write any name for the module.}
   source        = "./modules/ec2_instance"
   ami           = var.ami
   instance_type = var.instance_type
@@ -139,5 +148,64 @@ The module also returns output, like the instance_id
 | `terraform.tfvars` | Optional file to feed values to variables                       |
 
 
+1. Does the folder have to be named modules?
+No.Terraform treats any directory that contains Terraform files (*.tf) as a module.Using a folder called modules/ is simply a convention to keep your project tidy:
+```
+project-root/
+│  main.tf
+│  variables.tf
+│
+└── modules/        ← purely an organizational choice
+    └── ec2/
+        ├── main.tf
+        ├── variables.tf
+        └── outputs.tf
+```
+You could name the directory custom_components/, infra_bits/, or place a module right beside your root configuration—Terraform doesn’t care, as long as the source argument in the module block points to the correct path.  
+```
+module "my_ec2" {
+  source = "./custom_components/ec2"  # works just the same
+}
+```
+
+*"my_ec2": The local name (label) you assign to this instance of the module. It must be unique within the configuration, and you refer to its outputs with this name (e.g., module.my_ec2.instance_id).*
 
 
+> [!NOTE]
+> my_module folder can encapsulate any logical piece of infrastructure you want to reuse—an EC2 instance, a VPC/VCN, an S3 bucket, a complete three‑tier web stack, you name it. The pattern is always thesame:
+> In simple words: module folder can be used to organize modules for any kind of Terraform resource you want to reuse.
+ ```
+ modules/
+├── ec2_instance/
+│   ├── main.tf         # EC2 resource(s)
+│   ├── variables.tf    # AMI, instance_type, tags…
+│   └── outputs.tf      # instance_id, public_ip…
+├── vpc/
+│   ├── main.tf         # VPC + subnets, route tables, IGW…
+│   ├── variables.tf
+│   └── outputs.tf
+└── rds/
+    ├── main.tf         # RDS DB instance/cluster
+    ├── variables.tf
+    └── outputs.tf
+```
+> You can have one module per kind of resource (like the example above),or a larger module that provisions several related resources together (e.g., “three‑tier‑app” containing VPC, subnets, EC2, and an ALB).
+> From your root configuration you simply call whichever module you need:
+```
+module "web_server" {
+  source = "./modules/ec2_instance"
+  ami    = "ami-0abc123"
+  name   = "web‑01"
+}
+
+module "network" {
+  source     = "./modules/vpc"
+  cidr_block = "10.0.0.0/16"
+}
+
+module "database" {
+  source        = "./modules/rds"
+  engine        = "mysql"
+  instance_type = "db.t3.micro"
+}
+```
