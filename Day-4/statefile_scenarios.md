@@ -17,7 +17,7 @@ Terraform is an Infrastructure as Code (IaC) tool used to define and provision i
 
 **Disadvantages of Storing Terraform State in Version Control Systems (VCS):**
 
-1. **Security Risks**: Sensitive information, such as API keys or passwords, may be stored in the state file if it's committed to a VCS. This poses a security risk because VCS repositories are often shared among team members.
+1. **Security Risks**: Sensitive information, such as API keys or passwords, may be stored in the state file if it's committed to a VCS (version control system like git , github). This poses a security risk because VCS repositories are often shared among team members.
 
 2. **Versioning Complexity**: Managing state files in VCS can lead to complex versioning issues, especially when multiple team members are working on the same infrastructure.
 
@@ -110,6 +110,24 @@ By following these steps, you can securely store your Terraform state in S3 with
 3. Configure the DynamoDB table name in your Terraform backend configuration, as shown in step 1.
 
 By following these steps, you can securely store your Terraform state in S3 with state locking using DynamoDB, mitigating the disadvantages of storing sensitive information in version control systems and ensuring safe concurrent access to your infrastructure.
-```
 
-Please note that you should adapt the configuration and commands to your specific AWS environment and requirements.
+
+Please note that you should adapt the configuration and commands to your specific AWS environment and requirements.    
+
+
+<br>
+
+> Statefile stores/tracks all the infrastructure changes happening. So whenever a new change is being occured using terraform , so first terraform checks the statefile and see the difference btw the current infra and changes need to be made. Now there are some disadvantages of using statefiles:
+> - 1. Since statefile records everything u perform using terraform so all the sensitive info also get stored like some sensitive info regarding ec2 instance. And if u uploaded your code to github or any VCS so all other people who have access to it can easily see the statefiles which is threat to security.
+> - 2. Also suppose a person pulls terraform code from github along with statefile. The code was regarding creating ec2 instance and now the person has modified the code and added a tag attribute too for the instance but didnt apply the terraform or run the code and just push the code to the repo. Now since the terraform apply didnt run so statefile didnt record the changes and due to which when next time some other person will make changes and apply terraform then the statefile will 1st ask to destroy previous code which will hamper the infra.
+
+> so these 2 are major demerits of local statefiles.
+
+> solution: 
+> Rather than creating local statefiles , we can store the data in S3 bucket of our cloud provider. So now whenevr u run terraform so it will record the infra details in the statefile present in S3bucket and now u dont need to upload any statefile on github repo and also if some other person is pulling the code and applying terraform then it will automatically record in S3 bucket.
+
+> **💡 Additional Best Practices**
+> - Enable state locking (e.g., using DynamoDB with S3) to prevent two people from running terraform apply simultaneously.
+> - Use the backend block in Terraform to configure remote state (e.g., backend "s3", backend "gcs", etc.).
+> - Consider using Terraform Cloud or Terraform Enterprise for built-in remote state management and collaboration.
+
