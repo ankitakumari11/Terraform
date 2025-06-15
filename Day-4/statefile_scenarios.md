@@ -2,6 +2,9 @@
 
 Terraform is an Infrastructure as Code (IaC) tool used to define and provision infrastructure resources. The Terraform state file is a crucial component of Terraform that helps it keep track of the resources it manages and their current state. This file, often named `terraform.tfstate`, is a JSON or HCL (HashiCorp Configuration Language) formatted file that contains important information about the infrastructure's current state, such as resource attributes, dependencies, and metadata.
 
+> *State file is used to store the information regarding the infrastructure created or u can say it tracks all the actions we are performing on the infrastructure.*
+> Example: u have created an ec2 instance but forgot to give a tag to it so u just went to that main.tf or x.tf file and added tag: "" line also in ec2 instance block code. now if u run terraform plam/apply , if no statefile is there then terraform will again create a new instance with tag so now u have 2 instances but u wanted to just update the previous one. So here comes statefile in picture, when u initially ran terraform file , it stored the ec2 instance record in statefile so next time when u wanted to add tag  and ran terraform apply/plan then terraform 1st sees the statefile and compares and saw that the indtance is already created so it will just update the instance.
+
 **Advantages of Terraform State File:**
 
 1. **Resource Tracking**: The state file keeps track of all the resources managed by Terraform, including their attributes and dependencies. This ensures that Terraform can accurately update or destroy resources when necessary.
