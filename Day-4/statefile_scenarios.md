@@ -116,7 +116,8 @@ Please note that you should adapt the configuration and commands to your specifi
 
 
 <br>
-### TERRAFORM AND STATEFILES RELATION:   
+
+## TERRAFORM AND STATEFILES RELATION:   
 
 > Statefile stores/tracks all the infrastructure changes happening. So whenever a new change is being occured using terraform , so first terraform checks the statefile and see the difference btw the current infra and changes need to be made. Now there are some disadvantages of using statefiles:
 > - 1. Since statefile records everything u perform using terraform so all the sensitive info also get stored like some sensitive info regarding ec2 instance. And if u uploaded your code to github or any VCS so all other people who have access to it can easily see the statefiles which is threat to security.
