@@ -9,6 +9,15 @@ variable "ami" {
   description = "value"
 }
 
+
+# Now suppose u have this :
+```
+variable "instance_type" {
+  description = "value"
+  }
+```
+# And u r creating 3 tfvars, like prod,stage,dev,tfvars and in each u r writing instance_type = micro/medium or large. Now when u will run terraform apply 2nd time for medium then it will not create a new instance , it will just update the exisiting instance becoz u have already statefile created in the 1st run i.e micro. But we want to create new instance so for that we need different workspaces/environments so what it will do that it will create diffeerent statefiles for each and then u can run the same set of code again and again without the issue of updation the existing resource
+
 variable "instance_type" {
   description = "value"
   type = map(string)
