@@ -5,14 +5,14 @@ Imagine you're managing cloud infrastructure (like servers, networks, etc.) usin
 - Production (prod)
 But you don't want the infrastructure for dev to interfere with prod.
 
-## 💡 Here's where Terraform Workspaces come in:
+### 💡 Here's where Terraform Workspaces come in:
 A workspace is like a separate drawer or folder where Terraform keeps:
 - its own state file
 - any resource tracking info
 ✅ This means: You can use the same Terraform code but have different environments and states isolated from each other.
 
 
-## 🧰 How It Works:  
+### 🧰 How It Works:  
 By default, Terraform creates a workspace called default.  
 You can create your own:  
 ```
@@ -39,11 +39,15 @@ If u are having 3 workspaces like :
 - DEV
 - STAGE
 - PROD
+ <br>
 u r going to have 3 statefiles i.e 1 for each environment so that u can use the same code again and again. Suppose u r having a
+
+
 - main.tf
 - dev.tfvars
 - stage.tfvars
 - prod.tfvars
+  
 
 and in each tfvars u have different variable for instance type like , t2.micro, t2.medium ,t2.large. Now u r running main and dev.tfvars when u want to create infra in dev environment then for stage and etc. but here what will happend , It will create a signgle statefile and when u will run the same code for 2nd time (main + stage.tfvars) , it will cause errror i.e either it would ask u to destroy the previously created dev infra becoz in statefile , it is already recorded that u have created or it will just see if any update in code is there otherwise leave as it is becoz infra is already created and recorded in statefile.  
 Here comes **terraform workspaces** , what it will do , it will create separate statefile for each environment so that  u can run the same code 3 times or the number of environments u have defined in the code.
