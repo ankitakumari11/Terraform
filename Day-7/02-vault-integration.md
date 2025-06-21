@@ -15,7 +15,7 @@ To create an AWS EC2 instance with Ubuntu, you can use the AWS Management Consol
 
 ## Install Vault on the EC2 instance
 
-To install Vault on the EC2 instance, you can use the following steps:
+To install Vault on the EC2 instance, you can use the following steps: Take ssh of the instance and run following commands  
 
 **Install gpg**
 
@@ -59,6 +59,28 @@ To start Vault, you can use the following command:
 vault server -dev -dev-listen-address="0.0.0.0:8200"
 ```
 
+Also, Implement security rules in **NSGS/SECURITY LISTS** :
+```
+Ingress:
+Source :0.0.0.0/0
+Protocol: TCP
+Destination port: 8200
+```
+
+Now write the following address in url to access the vault:
+```
+http://instance-ip-address:8200
+```
+<br>
+
+![image](https://github.com/user-attachments/assets/34b82da2-ab52-4afa-a09a-2059b8a4fe97)
+
+<br>
+
+To login into the vault:  
+*Method: Token  
+ Token : Root token (from start vault command output)*  
+ 
 ## Configure Terraform to read the secret from Vault.
 
 Detailed steps to enable and configure AppRole authentication in HashiCorp Vault:
