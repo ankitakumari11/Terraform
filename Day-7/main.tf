@@ -30,3 +30,5 @@ resource "aws_instance" "my_instance" {
     Secret = data.vault_kv_secret_v2.example.data["username"] # here everything taken from line 19 , and here u just want ur password or the word that u wrote there pn vault. See on vault u must have written something like /kv/secret-name -> username= ankita, so here it is retreiving the username key's value i.e ankita value
   }
 }
+
+
