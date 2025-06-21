@@ -83,9 +83,32 @@ To login into the vault:
  
 ## Configure Terraform to read the secret from Vault.
 
+![image](https://github.com/user-attachments/assets/7356e87f-edc4-49e8-bdbb-0a587c1f7747)
+
+![image](https://github.com/user-attachments/assets/ae211afd-27de-42e4-af88-133e3f62dc7f)
+
+![image](https://github.com/user-attachments/assets/2ab26b98-b9d6-46d0-b9ae-e7f85cad17ce)
+
+![image](https://github.com/user-attachments/assets/af62839d-18f2-4aab-b71a-21d726bc408d)
+
+![image](https://github.com/user-attachments/assets/4ced2f30-7360-484d-bad4-dc9a134d7181)
+
+
 Detailed steps to enable and configure AppRole authentication in HashiCorp Vault:
 
 1. **Enable AppRole Authentication**:
+
+![image](https://github.com/user-attachments/assets/dc70fa0c-fe16-48a8-bb26-1c62afd9792b)
+
+![image](https://github.com/user-attachments/assets/05af79c0-26f7-4723-8248-b149e04161a2)
+
+![image](https://github.com/user-attachments/assets/effd413a-a250-42f4-9a2d-6012abddcae8)
+
+![image](https://github.com/user-attachments/assets/c6807610-a0c9-4826-97b5-67bdf26d502e)
+
+![image](https://github.com/user-attachments/assets/525d2bb4-aef5-4dab-9315-c85058df35a9)
+
+   
 
 To enable the AppRole authentication method in Vault, you need to use the Vault CLI or the Vault HTTP API.
 
