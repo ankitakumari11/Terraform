@@ -100,16 +100,6 @@ Detailed steps to enable and configure AppRole authentication in HashiCorp Vault
 
 ![image](https://github.com/user-attachments/assets/dc70fa0c-fe16-48a8-bb26-1c62afd9792b)
 
-![image](https://github.com/user-attachments/assets/05af79c0-26f7-4723-8248-b149e04161a2)
-
-![image](https://github.com/user-attachments/assets/effd413a-a250-42f4-9a2d-6012abddcae8)
-
-![image](https://github.com/user-attachments/assets/c6807610-a0c9-4826-97b5-67bdf26d502e)
-
-![image](https://github.com/user-attachments/assets/525d2bb4-aef5-4dab-9315-c85058df35a9)
-
-   
-
 To enable the AppRole authentication method in Vault, you need to use the Vault CLI or the Vault HTTP API.
 
 **Using Vault CLI**:
@@ -150,6 +140,7 @@ capabilities = ["create", "read", "update", "list"]
 }
 EOF
 ```
+![image](https://github.com/user-attachments/assets/05af79c0-26f7-4723-8248-b149e04161a2)
 
 Now you'll need to create an AppRole with appropriate policies and configure its authentication settings. Here are the steps to create an AppRole:
 
@@ -164,6 +155,7 @@ vault write auth/approle/role/terraform \
     secret_id_num_uses=40 \
     token_policies=terraform
 ```
+![image](https://github.com/user-attachments/assets/effd413a-a250-42f4-9a2d-6012abddcae8)
 
 3. **Generate Role ID and Secret ID**:
 
@@ -177,6 +169,8 @@ You can retrieve the Role ID using the Vault CLI:
 vault read auth/approle/role/my-approle/role-id
 ```
 
+![image](https://github.com/user-attachments/assets/c6807610-a0c9-4826-97b5-67bdf26d502e)
+
 Save the Role ID for use in your Terraform configuration.
 
 **b. Generate Secret ID**:
@@ -186,5 +180,7 @@ To generate a Secret ID, you can use the following command:
 ```bash
 vault write -f auth/approle/role/my-approle/secret-id
    ```
+
+![image](https://github.com/user-attachments/assets/525d2bb4-aef5-4dab-9315-c85058df35a9)
 
 This command generates a Secret ID and provides it in the response. Save the Secret ID securely, as it will be used for Terraform authentication.
