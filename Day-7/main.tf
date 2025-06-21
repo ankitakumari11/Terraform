@@ -7,7 +7,7 @@ provider "vault" {
   skip_child_token = true # recommended by hashicorp
 
   auth_login {
-    path = "auth/approle/login"
+    path = "auth/approle/login" # here we are logging to vault using approle method
 
     parameters = {
       role_id = "<>" # you will take it from vault, use the commands mentioned in readme file 
