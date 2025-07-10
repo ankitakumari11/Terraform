@@ -104,3 +104,66 @@ Now u dont need to modify the main.tf if u just want to change the AMI or any ot
 Now since u were already having main.tf and u replaced it with new main.tf , variable.tf and provider.tf and then u run terraform apply then it will first delete the repvoiusly created vm formed from preivious main.tf becoz now it is not there in the new configuration (main.tf) file.
 
 ![image](https://github.com/user-attachments/assets/be1c6ac0-c360-47b7-9e56-74a7aef83f21)
+
+
+### <ins>Use terraform without using AWS Access and Secret key</ins>
+
+Install AWS CLI  
+```
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+apt-get update
+apt-get install unzip
+unzip awscliv2.zip
+cd aws
+./install
+```
+
+![image](https://github.com/user-attachments/assets/52327ae7-0a49-46f4-b5cd-59f3df9798b7)  
+
+
+Give below information below: 
+1. Access key: 
+2. Secret key:
+3. Region:
+4. Format:
+
+`aws configure`  
+
+![image](https://github.com/user-attachments/assets/81c8d157-b72c-448e-8e4e-729e3cc3706d)
+
+To check the aws credentials(access_key and secret_key): `cat ~/.aws/credentials`  
+![image](https://github.com/user-attachments/assets/0f39e98f-78c5-4d98-a9ef-841df011cfe0)  
+
+Now destroy the already existed resources. `terraform destroy`
+
+![image](https://github.com/user-attachments/assets/73d0e10f-a3b5-436b-baeb-39e16e124b17)
+
+
+vi main.tf
+```
+resource "aws_instance" "ec2_instance" {
+    ami = "xxxxxxxx"
+	instance_type = "t2.micro"
+}
+```
+
+vi provider.tf  
+```
+provider "aws" {
+    region = var.AWS_REGION
+}
+```
+  
+vi vars.tf  
+```
+#Region
+variable AWS_REGION {
+  default = "us-east-1"
+}
+```
+
+
+
+
+
+
