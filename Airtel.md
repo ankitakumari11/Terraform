@@ -3,8 +3,30 @@
 
 ![image](https://github.com/user-attachments/assets/ab0273bb-1293-4a17-8fa1-be987d3d4aa6)
 
-Delete existing user  
-![image](https://github.com/user-attachments/assets/746081f6-8744-4790-916b-6811d10ca476)
+3. Delete existing user  
+![image](https://github.com/user-attachments/assets/746081f6-8744-4790-916b-6811d10ca476)  
+
+![image](https://github.com/user-attachments/assets/94e6e162-7bf9-4ccd-ab95-94205bc6b84a)  
+
+![image](https://github.com/user-attachments/assets/dc6f3be0-fd66-42d1-8b24-efc5f5927341)  
+
+![image](https://github.com/user-attachments/assets/4a20c33e-6374-4650-bb06-f0152535ee18)  
+
+![image](https://github.com/user-attachments/assets/83789755-a2a1-4869-b33e-df455309cfa7)  
+
+![image](https://github.com/user-attachments/assets/7d37d8ab-0402-4996-abb3-d66dca6dd2c0)  
+
+![image](https://github.com/user-attachments/assets/d4f9d784-25e8-4f27-b8a3-03627f139711)  
+
+
+
+4. Install Terraform on the server
+Install Terraform | Terraform | HashiCorp Developer
+
+
+
+
+
 
 `root@ip-172-31-27-151:~/scripts# terraform validate`  
 ![image](https://github.com/user-attachments/assets/3376e2a7-0901-4374-87f1-5e873ef043ab)
