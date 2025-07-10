@@ -138,11 +138,11 @@ Now destroy the already existed resources. `terraform destroy`
 
 ![image](https://github.com/user-attachments/assets/73d0e10f-a3b5-436b-baeb-39e16e124b17)
 
-
+Now create the following files and then run terraform plan and apply
 vi main.tf
 ```
 resource "aws_instance" "ec2_instance" {
-    ami = "xxxxxxxx"
+    ami = "ami-020cba7c55df1f615"
 	instance_type = "t2.micro"
 }
 ```
@@ -162,6 +162,80 @@ variable AWS_REGION {
 }
 ```
 
+`terraform plan`  and `terraform apply`  
+![image](https://github.com/user-attachments/assets/87c15481-4741-47c1-96bc-99acbdf300ef)  
+
+### <ins>Creating Security lists and attaching to vm</ins>
+
+Delete the existing resource.  
+`terraform destroy`  
+
+vi main.tf  
+```
+# Create new security group
+resource "aws_security_group" "sandbox_sg" {
+    name = "sandbox security group"
+        vpc_id = var.vpc.id
+
+        ingress {
+            description = "inbound"
+                from_port = 22
+                to_port = 22
+                protocol = "tcp"
+                cidr_blocks = [var.vpc.cidr]
+        }
+
+        egress {
+            description = "outbound"
+                from_port = 0
+                to_port = 0
+                protocol = "tcp"
+                cidr_blocks = [var.vpc.cidr]
+        }
+
+        tags = {
+           sg_name = "sandbox-security-group"
+        }
+ }
+ 
+# Create Ec2 instance
+resource "aws_instance" "ec2_instance" {
+    ami = "ami-020cba7c55df1f615"
+        instance_type = "t2.micro"
+        vpc_security_group_ids = [aws_security_group.sandbox_sg.id]
+        tags = {Name = "HTTP_SERVER2"}
+        key_name = "aws-demo-key"
+        count = 2
+ }
+
+```
+
+ vim provider.tf  
+ ```
+provider "aws" {
+     region = var.AWS_REGION
+ }
+```
+
+vim vars.tf  
+```
+variable AWS_REGION {
+  default = "us-east-1"
+ }
+ 
+ variable "vpc" {
+   default = {
+     id = "vpc-09d3e7e8a5ec1aac3"
+         cidr = "0.0.0.0/0"
+   }
+ }
+```
+
+So it created a secuirty group (NSG) under the vpc u defined in vpn id and it will attach that secuirity group with aws instances here u r creating 2 instances and witha keypair.  
+
+![image](https://github.com/user-attachments/assets/f2cc068d-52d2-42c1-aaba-7d80b83bfefa)
+
+  
 
 
 
