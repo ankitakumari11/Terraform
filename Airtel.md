@@ -1,3 +1,8 @@
+**Features of Terraform:**
+- Terraform has statefiles to keep record of all the changes.
+- Terraform has locking mechanism so if 2 people are working at the same time then due to .lock file , terraform will allow only one of the user to make changes and the next user will do later.
+- 
+  
 1. Create a vm: Terraform-vm
 2. Create IAM user.
 
@@ -129,6 +134,8 @@ Now since u were already having main.tf and u replaced it with new main.tf , var
 
 
 ### <ins>Use terraform without using AWS Access and Secret key</ins>
+
+Now rather than including access key and secret key in yml files , we configure aws cli and can run the yml files directly. 
 
 Install AWS CLI  
 ```
