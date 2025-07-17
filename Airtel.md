@@ -26,7 +26,7 @@
 
 
 4. Install Terraform on the server
-Install Terraform | Terraform | HashiCorp Developer
+Install Terraform | Terraform | HashiCorp Developer : https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli  
 
 
 
