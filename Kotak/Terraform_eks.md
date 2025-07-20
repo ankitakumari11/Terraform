@@ -5,7 +5,8 @@
 3. Create Secret access key for that IAM user (select command line interface) , download credentials in .csv
 4. Go to instance and download aws cli: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
    ```
-   $ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   apt-get install unzip
    unzip awscliv2.zip
    sudo ./aws/install
    ```
@@ -18,4 +19,9 @@
      
    <img width="1920" height="857" alt="image" src="https://github.com/user-attachments/assets/94d4ea94-9c83-431c-9aac-0f777ce2e962" />
 
-8. 
+8. mkdir scripts
+9. cd scritps
+10. We will create this script to just test if terraform working prorply or not so will create an ec2 for testing.
+11. vim main.tf
+```
+
