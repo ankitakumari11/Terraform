@@ -532,4 +532,26 @@ resource "kubernetes_service" "gamutkart_service" {
   }
 }
 ```
+8. You can install kubectl to get the information about pods and services.
+9. install kubectl from : http://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+<img width="1920" height="240" alt="image" src="https://github.com/user-attachments/assets/783c3b06-aedc-4036-9337-45e209c36cd7" />
+
+10. Configure kubeconfig for your cluster (once Terraform creates EKS):
+```
+aws eks update-kubeconfig --region us-east-1 --name eks-default-cluster
+```
+11. run kubectl commmands
+```
+kubectl get pods
+kubectl get nodes
+kubectl get service
+```
+
+<img width="1920" height="548" alt="image" src="https://github.com/user-attachments/assets/201e8bda-2c7b-48aa-988c-3d63732c1b1b" />
+
+12. http://<lb-dns>:8080/gamutkart/ :--> http://a80f5a6dc78ef48198e378eff9dc7538-543083888.us-east-1.elb.amazonaws.com:8080/gamutkart/
+
+<img width="1920" height="665" alt="image" src="https://github.com/user-attachments/assets/8fee3532-7d65-4a21-b309-94cd5449082d" />
+
 
