@@ -1,4 +1,4 @@
-## Creating AWS eks cluster using Terraform  
+# Terraform Scripts
 
 1. Create ec2 instance (ubuntu).
 2. create IAM user on aws (give administrative rights).
@@ -265,3 +265,6 @@ output "public_ec2_public_ip" {
 
 10. Now if you want to destroy: `terraform destroy`
 
+# Creation of EKS cluster using Terraform scripts
+
+1. 
