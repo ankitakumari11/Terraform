@@ -267,4 +267,269 @@ output "public_ec2_public_ip" {
 
 # Creation of EKS cluster using Terraform scripts
 
-1. 
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/1ef0fd52-09c3-4d7d-ac05-573cd8f58982" />
+
+  
+1. Go to your terraform instance
+2. cd scripts
+3. mkdir eks-cluster
+```
+eks-cluster/
+│
+├── main.tf
+├── variables.tf
+├── outputs.tf
+```
+4. cd eks-cluster
+5. vim variables.tf
+```
+variable "region" {
+  default = "us-east-1"
+}
+
+variable "cluster_name" {
+  default = "eks-default-cluster"
+}
+```
+6. vim main.tf
+```
+provider "aws" {
+  region = var.region
+}
+
+# IAM role for EKS Cluster
+resource "aws_iam_role" "eks_cluster_role" {
+  name = "eks-cluster-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = {
+        Service = "eks.amazonaws.com"
+      },
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSClusterPolicy" {
+  role       = aws_iam_role.eks_cluster_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+}
+
+# IAM role for EKS Worker Nodes
+resource "aws_iam_role" "eks_node_role" {
+  name = "eks-node-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      },
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "eks_node_AmazonEKSWorkerNodePolicy" {
+  role       = aws_iam_role.eks_node_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+}
+
+resource "aws_iam_role_policy_attachment" "eks_node_AmazonEC2ContainerRegistryReadOnly" {
+  role       = aws_iam_role.eks_node_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
+resource "aws_iam_role_policy_attachment" "eks_node_AmazonEKS_CNI_Policy" {
+  role       = aws_iam_role.eks_node_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+}
+
+# Get default subnets across 3 AZs
+data "aws_availability_zones" "available" {}
+
+data "aws_subnet" "default_subnets" {
+  count = 3
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+  default_for_az     = true
+}
+
+# Security Group for EKS
+resource "aws_security_group" "eks_cluster_sg" {
+  name        = "eks-cluster-sg"
+  description = "EKS Cluster Security Group"
+  vpc_id      = data.aws_vpc.default.id
+}
+
+# Get Default VPC
+data "aws_vpc" "default" {
+  default = true
+}
+
+# EKS Cluster
+resource "aws_eks_cluster" "eks_cluster" {
+  name     = var.cluster_name
+  role_arn = aws_iam_role.eks_cluster_role.arn
+  version  = "1.29"
+
+  vpc_config {
+    subnet_ids = [for subnet in data.aws_subnet.default_subnets : subnet.id]
+    security_group_ids = [aws_security_group.eks_cluster_sg.id]
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy
+  ]
+}
+
+# EKS Node Group
+resource "aws_eks_node_group" "eks_nodes" {
+  cluster_name    = aws_eks_cluster.eks_cluster.name
+  node_group_name = "eks-node-group"
+  node_role_arn   = aws_iam_role.eks_node_role.arn
+  subnet_ids      = [for subnet in data.aws_subnet.default_subnets : subnet.id]
+  instance_types  = ["t3.medium"]
+  scaling_config {
+    desired_size = 3
+    max_size     = 3
+    min_size     = 1
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.eks_node_AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.eks_node_AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.eks_node_AmazonEKS_CNI_Policy
+  ]
+}
+```
+7. vim outputs.tf
+```
+output "eks_cluster_name" {
+  value = aws_eks_cluster.eks_cluster.name
+}
+
+output "kubeconfig_command" {
+  value = "aws eks update-kubeconfig --name ${aws_eks_cluster.eks_cluster.name} --region ${var.region}"
+}
+```
+> [!IMPORTANT]
+> IAM Roles
+> - IAM Role for EKS Control Plane
+>   - `resource "aws_iam_role" "eks_cluster_role" { ... }`
+>   - This IAM Role will be assumed by the EKS control plane (managed by AWS).
+>   - eks.amazonaws.com is the principal because EKS (AWS service) needs it.
+>   - You attach this role to your EKS Cluster.
+>   - `resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSClusterPolicy" { ... }`
+>   - ✅ Attaches the AmazonEKSClusterPolicy to the role so the EKS control plane can manage your cluster resources.
+>  - IAM Role for Worker Nodes (EC2 Instances)
+>    - `resource "aws_iam_role" "eks_node_role" { ... }`
+>    - This is the IAM Role that your EC2 worker nodes (Kubelets) will assume.
+>    - Below These attachments give it the permissions it needs:
+>      
+>    <img width="1013" height="278" alt="image" src="https://github.com/user-attachments/assets/1ad31dcf-1a94-4077-98ac-b24eee47cc4c" />
+
+8. terraform init
+9. terraform plan
+10. terraform apply
+
+<img width="1909" height="251" alt="image" src="https://github.com/user-attachments/assets/eebb96a3-30a3-4484-8006-e8f80608c6e5" />
+
+# Create deployment using this cluster (deploy gamutkart application on the nodes)
+
+1. cd scripts
+2. mkdir gamut-deploy
+3. cd gamut-deploy
+4. vim provider.tf
+```
+provider "aws" {
+  region = "us-east-1"
+}
+
+data "aws_eks_cluster" "eks" {
+  name = "eks-default-cluster"
+}
+
+data "aws_eks_cluster_auth" "eks" {
+  name = data.aws_eks_cluster.eks.name
+}
+
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.eks.endpoint
+  token                  = data.aws_eks_cluster_auth.eks.token
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
+}
+```
+6. vim gamutkart_deployment.tf 
+```
+resource "kubernetes_deployment" "gamutkart_deploy" {
+  metadata {
+    name = "gamutkart-deploy"
+    labels = {
+      app = "gamutkart-app"
+    }
+  }
+
+  spec {
+    replicas = 6
+
+    selector {
+      match_labels = {
+        app = "gamutkart-app"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "gamutkart-app"
+        }
+      }
+
+      spec {
+        container {
+          name  = "gamutkart-container"
+          image = "ankitakumari346/gamutkart-image2"
+
+          port {
+            container_port = 8080
+          }
+
+          command = ["/bin/sh"]
+          args    = ["-c", "/root/apache-tomcat-9.0.85/bin/startup.sh; while true; do sleep 1; done;"]
+        }
+      }
+    }
+  }
+}
+```
+7. vim gamutkart_service.tf
+```
+resource "kubernetes_service" "gamutkart_service" {
+  metadata {
+    name = "gamutkart-prod"
+    labels = {
+      app = "gamutkart"
+      env = "prod"
+    }
+  }
+
+  spec {
+    selector = {
+      app = "gamutkart-app"
+    }
+
+    type = "LoadBalancer"
+
+    port {
+      port        = 8080
+      target_port = 8080
+      node_port   = 31000
+    }
+  }
+}
+```
+
