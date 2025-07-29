@@ -571,4 +571,9 @@ kubectl get service
 
 <img width="1920" height="665" alt="image" src="https://github.com/user-attachments/assets/8fee3532-7d65-4a21-b309-94cd5449082d" />
 
+## ⚠️ When Will Terraform Destroy Resources?
+- If you delete or comment out the EKS cluster code in main.tf and then run terraform apply, Terraform will:
+- Think you want to remove the cluster.
+- Show “Destroy” action in the plan.
+- If you delete the terraform.tfstate file or use a different directory, Terraform will lose track of your previous resources and may try to recreate them (can cause errors or conflicts).
 
