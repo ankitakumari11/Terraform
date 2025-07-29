@@ -532,8 +532,9 @@ resource "kubernetes_service" "gamutkart_service" {
   }
 }
 ```
-8. You can install kubectl to get the information about pods and services.
-9. install kubectl from : http://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+8.  run above above terraform : `terraform init` , `terraform plan` , `terraform apply`.
+9.  You can install kubectl to get the information about pods and services.
+10. install kubectl from : http://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 <img width="1920" height="240" alt="image" src="https://github.com/user-attachments/assets/783c3b06-aedc-4036-9337-45e209c36cd7" />
 
