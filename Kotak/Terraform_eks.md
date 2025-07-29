@@ -265,8 +265,24 @@ output "public_ec2_public_ip" {
 
 10. Now if you want to destroy: `terraform destroy`
 
-# Creation of EKS cluster using Terraform scripts
+# Creation of EKS cluster using Terraform scripts  
 
+```
+root@ip-172-31-91-53:~/terraform_scripts# tree
+.
+├── eks_cluster
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── terraform.tfstate
+│   ├── terraform.tfstate.backup
+│   └── variables.tf
+└── gamutkart_app
+    ├── gamutkart_deployment.tf
+    ├── gamutkart_service.tf
+    ├── provider.tf
+    └── terraform.tfstate
+```
+  
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/1ef0fd52-09c3-4d7d-ac05-573cd8f58982" />
 
   
