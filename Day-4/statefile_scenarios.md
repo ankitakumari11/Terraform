@@ -133,3 +133,16 @@ Please note that you should adapt the configuration and commands to your specifi
 > - Use the backend block in Terraform to configure remote state (e.g., backend "s3", backend "gcs", etc.).
 > - Consider using Terraform Cloud or Terraform Enterprise for built-in remote state management and collaboration.
 
+
+## IMPORTANT  
+main.tf :
+```
+
+```
+backend.tf:  
+```
+```
+
+If you change backend.tf, you must run:  
+
+`terraform init -reconfigure` or `terraform init -migrate-state`  
