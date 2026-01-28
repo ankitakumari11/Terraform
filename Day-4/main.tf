@@ -15,7 +15,7 @@ resource "aws_s3_bucket" "s3_bucket" {
 resource "aws_dynamodb_table" "terraform_lock" {
   name           = "terraform-lock"
   billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "LockID"
+  hash_key       = "LockID"                             # hash_key defines the unique identity of each lock in DynamoDB.
 
   attribute {
     name = "LockID"
