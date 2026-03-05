@@ -65,3 +65,18 @@ EC2
 Subnets
 Security groups
 ```
+
+> [!NOTE]
+> In production environments we create backend infrastructure like S3 and DynamoDB using a separate bootstrap Terraform project, and then configure the main infrastructure project to use that backend for remote state management.
+
+Folder Structure (Real DevOps Setup)  
+```
+terraform-projects
+│
+├── terraform-backend
+│      main.tf
+│
+└── terraform-infra
+       backend.tf
+       main.tf
+```
