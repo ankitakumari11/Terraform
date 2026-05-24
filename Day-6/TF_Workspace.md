@@ -11,7 +11,13 @@ A workspace is like a separate drawer or folder where Terraform keeps:
 - any resource tracking info
 ✅ This means: You can use the same Terraform code but have different environments and states isolated from each other.
 
-
+## WHAT IS TERRAFORM WORKSPACE?  
+Terraform workspace is a feature that allows you to maintain multiple state files for the same Terraform configuration.It helps you manage different environments like:  
+- dev
+- test
+- prod  
+without duplicating code
+  
 ### 🧰 How It Works:  
 By default, Terraform creates a workspace called default.  
 You can create your own:  
